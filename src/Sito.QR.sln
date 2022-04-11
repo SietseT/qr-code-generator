@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Generators", "Sito.QR.Generators\Sito.QR.Generators.csproj", "{B623AF77-027A-43C1-89C0-3D5E7A9A3414}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{22F17D37-7658-4922-8AD8-CE7E5DA03C83}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Generators.Shared", "Sito.QR.Generators.Shared\Sito.QR.Generators.Shared.csproj", "{8D202FF8-4DDC-4D3A-BEEF-E7365056615B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B623AF77-027A-43C1-89C0-3D5E7A9A3414}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B623AF77-027A-43C1-89C0-3D5E7A9A3414}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B623AF77-027A-43C1-89C0-3D5E7A9A3414}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B623AF77-027A-43C1-89C0-3D5E7A9A3414}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D202FF8-4DDC-4D3A-BEEF-E7365056615B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D202FF8-4DDC-4D3A-BEEF-E7365056615B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D202FF8-4DDC-4D3A-BEEF-E7365056615B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D202FF8-4DDC-4D3A-BEEF-E7365056615B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B623AF77-027A-43C1-89C0-3D5E7A9A3414} = {22F17D37-7658-4922-8AD8-CE7E5DA03C83}
+		{8D202FF8-4DDC-4D3A-BEEF-E7365056615B} = {22F17D37-7658-4922-8AD8-CE7E5DA03C83}
+	EndGlobalSection
+EndGlobal

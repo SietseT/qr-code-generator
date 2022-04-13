@@ -1,7 +1,11 @@
+using System;
+using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Sito.QR.Generators.Factories.Abstractions;
 using Sito.QR.Generators.Shared.Dto;
@@ -19,7 +23,7 @@ public abstract class QrFunctionBase<TDto> where TDto : IQrRequest
         _qrFactory = qrFactory;
     }
     
-    public async Task<IActionResult> RunAsyncInternal(HttpRequest httpRequest)
+    public async Task<IActionResult> RunHttpAsyncInternal(HttpRequest httpRequest)
     {
         var requestBody = await httpRequest.ReadAsStringAsync();
         
@@ -31,5 +35,20 @@ public abstract class QrFunctionBase<TDto> where TDto : IQrRequest
         var qrData = _qrFactory.Create(payload);
 
         return new FileContentResult(qrData, "image/png");
+    }
+
+    public async Task ServiceBusTriggerAsync(string queueItem, Stream outputBlob, ILogger logger)
+    {
+        var dto = JsonConvert.DeserializeObject<TDto>(queueItem);
+        if (dto == null)
+        {
+            logger.LogWarning("Could not deserialize queue item to {Type}. Queue item: {QueueItem}", typeof(TDto), queueItem);
+            return;
+        }
+
+        var payload = _payloadFactory.CreatePayload(dto);
+        var qrData = _qrFactory.Create(payload);
+
+        await outputBlob.WriteAsync(new ReadOnlyMemory<byte>(qrData));
     }
 }

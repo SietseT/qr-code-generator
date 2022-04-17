@@ -1,4 +1,4 @@
-namespace Sito.QR.Generators.Shared.Enum;
+namespace Sito.QR.Api.Shared.Enum;
 
 public enum QrType
 {

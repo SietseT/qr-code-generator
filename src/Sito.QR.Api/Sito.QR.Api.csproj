@@ -2,12 +2,17 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>V4</AzureFunctionsVersion>
-        <AssemblyName>Sito.QR.Generators</AssemblyName>
-        <RootNamespace>Sito.QR.Generators</RootNamespace>
+        <AssemblyName>Sito.QR.Api</AssemblyName>
+        <RootNamespace>Sito.QR.Api</RootNamespace>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Azure.Messaging.ServiceBus" Version="7.7.0" />
         <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
-        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.2.0" />
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Azure" Version="1.1.1" />
+        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.0" />
         <PackageReference Include="QRCoder" Version="1.4.3" />
     </ItemGroup>
     <ItemGroup>
@@ -20,6 +25,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Sito.QR.Generators.Shared\Sito.QR.Generators.Shared.csproj" />
+      <ProjectReference Include="..\Sito.QR.Api.Shared\Sito.QR.Api.Shared.csproj" />
+      <ProjectReference Include="..\Sito.QR.Shared\Sito.QR.Shared.csproj" />
     </ItemGroup>
 </Project>

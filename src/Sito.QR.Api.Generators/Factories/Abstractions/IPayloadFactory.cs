@@ -1,6 +1,6 @@
-using Sito.QR.Generators.Shared.Dto;
+using Sito.QR.Api.Shared.Dto;
 
-namespace Sito.QR.Generators.Factories.Abstractions;
+namespace Sito.QR.Api.Generators.Factories.Abstractions;
 
 public interface IPayloadFactory<in TDto> where TDto : IQrRequest
 {

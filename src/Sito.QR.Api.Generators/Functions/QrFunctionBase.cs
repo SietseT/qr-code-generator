@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Sito.QR.Api.Factories.Abstractions;
-using Sito.QR.Generators.Shared.Dto;
+using Sito.QR.Api.Generators.Factories.Abstractions;
+using Sito.QR.Api.Shared.Dto;
 
-namespace Sito.QR.Api.Functions;
+namespace Sito.QR.Api.Generators.Functions;
 
 public abstract class QrFunctionBase<TDto> where TDto : IQrRequest
 {

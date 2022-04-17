@@ -5,11 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Sito.QR.Api.Factories.Abstractions;
-using Sito.QR.Api.Helpers;
-using Sito.QR.Generators.Shared.Dto;
+using Sito.QR.Api.Generators.Factories.Abstractions;
+using Sito.QR.Api.Shared.Dto;
+using Sito.QR.Api.Shared.Helpers;
 
-namespace Sito.QR.Api.Functions;
+namespace Sito.QR.Api.Generators.Functions;
 
 public class WifiQrGenerator : QrFunctionBase<WifiQrRequest>
 {

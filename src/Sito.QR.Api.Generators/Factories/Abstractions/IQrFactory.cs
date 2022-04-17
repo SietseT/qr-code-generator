@@ -1,4 +1,4 @@
-namespace Sito.QR.Api.Factories.Abstractions;
+namespace Sito.QR.Api.Generators.Factories.Abstractions;
 
 public interface IQrFactory
 {

@@ -1,6 +1,6 @@
-using Sito.QR.Generators.Shared.Enum;
+using Sito.QR.Api.Shared.Enum;
 
-namespace Sito.QR.Generators.Shared.Dto;
+namespace Sito.QR.Api.Shared.Dto;
 
 public class WifiQrRequest : QrRequestBase
 {

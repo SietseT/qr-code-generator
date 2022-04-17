@@ -1,8 +1,8 @@
 using System;
 using Newtonsoft.Json;
 using Sito.QR.Api.Factories.Abstractions;
-using Sito.QR.Generators.Shared.Dto;
-using Sito.QR.Generators.Shared.Enum;
+using Sito.QR.Api.Shared.Dto;
+using Sito.QR.Api.Shared.Enum;
 
 namespace Sito.QR.Api.Factories;
 

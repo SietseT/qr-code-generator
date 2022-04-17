@@ -11,7 +11,8 @@
         <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.ServiceBus" Version="5.2.0" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage" Version="5.0.0" />
-        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
+        <PackageReference Include="Microsoft.Extensions.Azure" Version="1.1.1" />
+        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.0" />
         <PackageReference Include="QRCoder" Version="1.4.3" />
     </ItemGroup>
     <ItemGroup>
@@ -24,6 +25,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\Sito.QR.Generators.Shared\Sito.QR.Generators.Shared.csproj" />
+      <ProjectReference Include="..\Sito.QR.Api.Shared\Sito.QR.Api.Shared.csproj" />
+      <ProjectReference Include="..\Sito.QR.Shared\Sito.QR.Shared.csproj" />
     </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
-namespace Sito.QR.Api.Helpers;
+namespace Sito.QR.Api.Shared.Helpers;
 
-internal static class Connections
+public static class Connections
 {
     public const string ServiceBus = "ServiceBus";
     public const string StorageAccount = "StorageAccount";

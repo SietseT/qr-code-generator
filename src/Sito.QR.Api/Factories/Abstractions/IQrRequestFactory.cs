@@ -1,4 +1,4 @@
-using Sito.QR.Generators.Shared.Dto;
+using Sito.QR.Api.Shared.Dto;
 
 namespace Sito.QR.Api.Factories.Abstractions;
 

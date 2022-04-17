@@ -1,8 +1,8 @@
 using QRCoder;
-using Sito.QR.Api.Factories.Abstractions;
-using Sito.QR.Generators.Shared.Dto;
+using Sito.QR.Api.Generators.Factories.Abstractions;
+using Sito.QR.Api.Shared.Dto;
 
-namespace Sito.QR.Api.Factories;
+namespace Sito.QR.Api.Generators.Factories;
 
 internal abstract class PayloadFactoryBase<TDto> : IPayloadFactory<TDto> where TDto : IQrRequest
 {

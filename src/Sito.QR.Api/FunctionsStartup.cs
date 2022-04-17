@@ -7,59 +7,22 @@ using Microsoft.Extensions.Logging;
 using Sito.QR.Api;
 using Sito.QR.Api.Factories;
 using Sito.QR.Api.Factories.Abstractions;
-using Sito.QR.Api.Helpers;
 using Sito.QR.Api.Repositories;
 using Sito.QR.Api.Repositories.Abstractions;
-using Sito.QR.Generators.Shared.Dto;
+using Sito.QR.Api.Shared;
+using Sito.QR.Api.Shared.Dto;
+using Sito.QR.Api.Shared.Helpers;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 
 namespace Sito.QR.Api;
 
-public class Startup : FunctionsStartup
+public class Startup : StartupBase
 {
-    private IConfiguration? _configuration;
-
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        _configuration = builder.GetContext().Configuration;
-        
-        ConfigureAzureServices(builder.Services);
-        ConfigureGeneral(builder.Services);
-        ConfigurePayloadFactories(builder.Services);
-        ConfigureRequestFactories(builder.Services);
-        ConfigureRepositories(builder.Services);
-    }
-
-    private void ConfigureAzureServices(IServiceCollection services)
-    {
-        services.AddAzureClients(builder =>
-        {
-            builder.AddServiceBusClient(_configuration.GetConnectionString(Connections.ServiceBus));
-        });
-    }
-
-    private static void ConfigureGeneral(IServiceCollection services)
-    {
-        services.AddLogging();
-        services.AddSingleton<ILogger>(provider => provider.GetService<ILoggerFactory>()
-            .CreateLogger(LogCategories.CreateFunctionUserCategory("Common")));
-        
-        services.AddSingleton<IQrFactory, QrFactory>();
-    }
-    
-    private static void ConfigurePayloadFactories(IServiceCollection services)
-    {
-        services.AddSingleton<IPayloadFactory<WifiQrRequest>, WifiPayloadFactory>();
-    }
-
-    private void ConfigureRequestFactories(IServiceCollection services)
-    {
-        services.AddSingleton<IQrRequestFactory, QrRequestFactory>();
-    }
-
-    private static void ConfigureRepositories(IServiceCollection services)
-    {
-        services.AddSingleton<IServiceBusRepository, AzureServiceBusRepository>();
+        base.Configure(builder);
+        builder.Services.AddSingleton<IQrRequestFactory, QrRequestFactory>();
+        builder.Services.AddSingleton<IServiceBusRepository, AzureServiceBusRepository>();
     }
 }

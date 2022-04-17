@@ -1,7 +1,7 @@
 using QRCoder;
-using Sito.QR.Generators.Factories.Abstractions;
+using Sito.QR.Api.Factories.Abstractions;
 
-namespace Sito.QR.Generators.Factories;
+namespace Sito.QR.Api.Factories;
 
 internal class QrFactory : IQrFactory
 {

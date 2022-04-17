@@ -2,7 +2,12 @@ using Sito.QR.Generators.Shared.Enum;
 
 namespace Sito.QR.Generators.Shared.Dto;
 
-public abstract class QrRequestBase : IQrRequest
+public class QrRequestBase : IQrRequest
 {
-    public abstract QrType Type { get; }
+    public QrRequestBase(QrType type)
+    {
+        Type = type;
+    }
+    
+    public QrType Type { get; }
 }

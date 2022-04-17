@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Generators", "Sito.QR.Generators\Sito.QR.Generators.csproj", "{B623AF77-027A-43C1-89C0-3D5E7A9A3414}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Api", "Sito.QR.Api\Sito.QR.Api.csproj", "{B623AF77-027A-43C1-89C0-3D5E7A9A3414}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generators", "Generators", "{22F17D37-7658-4922-8AD8-CE7E5DA03C83}"
 EndProject

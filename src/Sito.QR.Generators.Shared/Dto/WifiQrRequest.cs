@@ -7,11 +7,9 @@ public class WifiQrRequest : QrRequestBase
     public string Ssid { get; }
     public string Password { get; }
 
-    public WifiQrRequest(string ssid, string password)
+    public WifiQrRequest(string ssid, string password) : base(QrType.Wifi)
     {
         Ssid = ssid;
         Password = password;
     }
-
-    public override QrType Type => QrType.Wifi;
 }

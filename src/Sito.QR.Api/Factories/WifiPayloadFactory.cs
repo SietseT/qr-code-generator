@@ -1,7 +1,7 @@
 using QRCoder;
 using Sito.QR.Generators.Shared.Dto;
 
-namespace Sito.QR.Generators.Factories;
+namespace Sito.QR.Api.Factories;
 
 internal class WifiPayloadFactory : PayloadFactoryBase<WifiQrRequest>
 {

@@ -3,27 +3,26 @@ using System.IO;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using Sito.QR.Generators.Factories.Abstractions;
+using Sito.QR.Api.Factories.Abstractions;
 using Sito.QR.Generators.Shared.Dto;
 
-namespace Sito.QR.Generators.Functions;
+namespace Sito.QR.Api.Functions;
 
 public abstract class QrFunctionBase<TDto> where TDto : IQrRequest
 {
     private readonly IPayloadFactory<TDto> _payloadFactory;
     private readonly IQrFactory _qrFactory;
 
-    public QrFunctionBase(IPayloadFactory<TDto> payloadFactory, IQrFactory qrFactory)
+    protected QrFunctionBase(IPayloadFactory<TDto> payloadFactory, IQrFactory qrFactory)
     {
         _payloadFactory = payloadFactory;
         _qrFactory = qrFactory;
     }
-    
-    public async Task<IActionResult> RunHttpAsyncInternal(HttpRequest httpRequest)
+
+    protected async Task<IActionResult> RunHttpAsyncInternal(HttpRequest httpRequest)
     {
         var requestBody = await httpRequest.ReadAsStringAsync();
         
@@ -37,7 +36,7 @@ public abstract class QrFunctionBase<TDto> where TDto : IQrRequest
         return new FileContentResult(qrData, "image/png");
     }
 
-    public async Task ServiceBusTriggerAsync(string queueItem, Stream outputBlob, ILogger logger)
+    protected async Task ServiceBusTriggerAsync(string queueItem, Stream outputBlob, ILogger logger)
     {
         var dto = JsonConvert.DeserializeObject<TDto>(queueItem);
         if (dto == null)

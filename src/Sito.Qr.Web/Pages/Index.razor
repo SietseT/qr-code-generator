@@ -1,0 +1,21 @@
+@page "/"
+
+<h3>QR Generator</h3>
+<p>Status: @_status</p>
+
+<div class="form-group">
+<label for="inputSsid">SSID: </label>
+<input type="text" class="form-control" id="inputSsid" placeholder="Network SSID" @bind="_ssid">
+</div>
+<div class="form-group">
+    <label for="inputPassword">Password: </label>
+    <input type="password" class="form-control" id="inputPassword" placeholder="Password" @bind="_password">
+</div>
+<button class="btn btn-primary" type="submit" @onclick="@OnSubmitQr">Generate QR-code</button>
+
+@if (_generatedQrCodeUrl != null)
+{
+    <div>
+        <img src="@_generatedQrCodeUrl" alt="QR-code"/>
+    </div>
+}

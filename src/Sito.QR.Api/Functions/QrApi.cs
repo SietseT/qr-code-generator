@@ -29,13 +29,9 @@ public class QrApi
     public async Task<IActionResult> RunAsync([HttpTrigger(AuthorizationLevel.Function, "post", Route = "qr")] 
         HttpRequest req, ILogger log)
     {
-        //_logger = log;
-        
         var jsonContent = await req.ReadAsStringAsync();
         if(string.IsNullOrWhiteSpace(jsonContent))
-        {
             return new BadRequestObjectResult("Empty request body");
-        }
 
         var qrRequest = GetQrRequest(jsonContent);
         if (qrRequest == null)

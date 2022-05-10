@@ -1,11 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
-        <AzureFunctionsVersion>V4</AzureFunctionsVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
         <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.SignalRService" Version="1.8.0" />
-        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.0.1" />
+        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.1.0" />
     </ItemGroup>
     <ItemGroup>
         <None Update="host.json">
@@ -13,7 +14,10 @@
         </None>
         <None Update="local.settings.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+            <CopyToPublishDirectory>Always</CopyToPublishDirectory>
         </None>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Sito.QR.Shared\Sito.QR.Shared.csproj" />
     </ItemGroup>
 </Project>

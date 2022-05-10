@@ -27,7 +27,7 @@ public class WifiQrGenerator : QrFunctionBase<WifiQrRequest>
     [StorageAccount(Connections.StorageAccount)]
     public async Task Run(
         [ServiceBusTrigger("wifi", Connection = Connections.ServiceBus)] string queueItem,
-        [Blob("wifi/{rand-guid}.png", FileAccess.Write)] Stream qrBlob,
+        [Blob("generated-qr/{rand-guid}.png", FileAccess.Write)] Stream qrBlob,
         ILogger logger)
     {
         await ServiceBusTriggerAsync(queueItem, qrBlob, logger);

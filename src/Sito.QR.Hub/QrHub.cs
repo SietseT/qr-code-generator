@@ -1,5 +1,9 @@
 using System;
+using System.IO;
 using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Net.Http.Json;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,6 +14,7 @@ using Microsoft.Azure.WebJobs.Extensions.SignalRService;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Sito.QR.Api.Shared.Constants;
 using Sito.QR.Api.Shared.Dto;
 
@@ -38,22 +43,41 @@ public class QrHub : ServerlessHub
         logger.LogInformation("{ConnectionId} has connected", invocationContext.ConnectionId);
     }
     
-    [FunctionName("sendqrrequest")]
+    [FunctionName(QrHubMethods.SendQrRequest)]
     public async Task SendQrRequest([SignalRTrigger]InvocationContext invocationContext, ILogger logger)
     {
         try
         {
-            if(invocationContext.Arguments[0] is not string jsonBody)
+            if(invocationContext.Arguments[0] is not JObject jsonBody)
                 throw new Exception("Invalid request body");
-            
-            
 
-            // logger.LogInformation("Message received: {Message}", message);
-            await Clients.All.SendAsync("test", "test");
+            var httpRequestMessage = new HttpRequestMessage(HttpMethod.Post, _hubOptions.QrApiUrl);
+            httpRequestMessage.Headers.Add(SignalRHttpHeaders.SignalRConnectionReferer, invocationContext.ConnectionId);
+            httpRequestMessage.Content = new StringContent(jsonBody.ToString(), Encoding.UTF8, "application/json");
+            await _httpClient.SendAsync(httpRequestMessage);
+            
+            await Clients.Client(invocationContext.ConnectionId).SendAsync(QrHubMethods.QrRequestSent);
         }
         catch (Exception e)
         {
-            var t = true;
+            logger.LogError(e, "Error sending QR request");
         }
+    }
+    
+    [FunctionName("QrBlobTrigger")]
+    public async Task RunAsync([BlobTrigger("generated-qr/{name}", Connection = "StorageAccount")] Stream file,
+        string name, ILogger log)
+    {
+        log.LogInformation("C# Blob trigger function Processed blob\n Name:{Name} \n Size: {Length} Bytes", name, file.Length);
+
+        using var memoryStream = new MemoryStream();
+        await file.CopyToAsync(memoryStream);
+            
+        var base64 = Convert.ToBase64String(memoryStream.ToArray());
+        var dataUrl = "data:image/png;base64," + base64;
+
+        var generatedQr = new GeneratedQr(dataUrl);
+ 
+        await Clients.All.SendAsync(QrHubMethods.QrCodeGenerated, generatedQr);
     }
 }

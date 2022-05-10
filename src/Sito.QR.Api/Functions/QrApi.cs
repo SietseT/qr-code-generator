@@ -31,9 +31,7 @@ public class QrApi
     {
         var jsonContent = await req.ReadAsStringAsync();
         if(string.IsNullOrWhiteSpace(jsonContent))
-        {
             return new BadRequestObjectResult("Empty request body");
-        }
 
         var qrRequest = GetQrRequest(jsonContent);
         if (qrRequest == null)

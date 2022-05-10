@@ -2,9 +2,13 @@ using Sito.QR.Api.Shared.Enum;
 
 namespace Sito.QR.Api.Shared.Dto;
 
-public abstract class QrRequestBase : IQrRequest
+/// <summary>
+/// Both class and constructor need to be public for serialization to work
+/// </summary>
+public class QrRequestBase : IQrRequest
 {
-    protected QrRequestBase(QrType type)
+    // ReSharper disable once MemberCanBeProtected.Global
+    public QrRequestBase(QrType type)
     {
         Type = type;
     }

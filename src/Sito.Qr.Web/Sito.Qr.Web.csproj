@@ -16,4 +16,8 @@
       <ProjectReference Include="..\Sito.QR.Shared\Sito.QR.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="wwwroot\sample-data\weather.json" />
+    </ItemGroup>
+
 </Project>

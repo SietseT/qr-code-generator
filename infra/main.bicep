@@ -10,22 +10,9 @@ param environment string = 'dev'
 @description('Resource name with environment')
 param resourceName string = '${environment}-${commonName}'
 
-@description('Generated from /subscriptions/74faf385-f368-4570-81a5-318a7d23c16a/resourceGroups/reg-dev-qrgenerator/providers/Microsoft.ServiceBus/namespaces/sb-dev-qrgenerator')
-resource sbdevqrgenerator 'Microsoft.ServiceBus/namespaces@2021-11-01' = {
-  sku: {
-    name: 'Basic'
-    tier: 'Basic'
-  }
-  name: 'sb-${resourceName}'
-  location: location
-  tags: {}
-  properties: {
-    disableLocalAuth: false
-    zoneRedundant: false
-  }
-}
+
 @description('Generated from /subscriptions/74faf385-f368-4570-81a5-318a7d23c16a/resourceGroups/reg-dev-qrgenerator/providers/Microsoft.SignalRService/SignalR/sr-dev-qrgenerator')
-resource srdevqrgenerator 'Microsoft.SignalRService/signalR@2022-02-01' = {
+resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
   sku: {
     name: 'Free_F1'
     tier: 'Free'
@@ -91,42 +78,50 @@ resource srdevqrgenerator 'Microsoft.SignalRService/signalR@2022-02-01' = {
   name: 'sr-${resourceName}'
 }
 
-@description('Generated from /subscriptions/74faf385-f368-4570-81a5-318a7d23c16a/resourceGroups/reg-dev-qrgenerator/providers/Microsoft.Storage/storageAccounts/sadevqrgenerator')
-resource sadevqrgenerator 'Microsoft.Storage/storageAccounts@2021-09-01' = {
-  sku: {
-    name: 'Standard_LRS'
+var buildNumber = uniqueString(resourceGroup().id)
+
+//----------- Storage Account Deployment ------------
+module storageAccount 'storageaccount.bicep' = {
+  name: 'stvmdeploy-${buildNumber}'
+  params: {
+    name: 'sa${environment}${commonName}'
+    location: location
   }
-  kind: 'StorageV2'
-  name: 'sa${environment}${commonName}'
-  location: location
-  tags: {}
-  properties: {
-    defaultToOAuthAuthentication: false
-    allowCrossTenantReplication: true
-    minimumTlsVersion: 'TLS1_2'
-    allowBlobPublicAccess: false
-    allowSharedKeyAccess: true
-    networkAcls: {
-      bypass: 'AzureServices'
-      virtualNetworkRules: []
-      ipRules: []
-      defaultAction: 'Allow'
-    }
-    supportsHttpsTrafficOnly: true
-    encryption: {
-      requireInfrastructureEncryption: false
-      services: {
-        file: {
-          keyType: 'Account'
-          enabled: true
-        }
-        blob: {
-          keyType: 'Account'
-          enabled: true
-        }
-      }
-      keySource: 'Microsoft.Storage'
-    }
-    accessTier: 'Hot'
+}
+
+//----------- Service Bus Deployment ------------
+module serviceBus 'servicebus.bicep' = {
+  name: 'sbdeploy-${buildNumber}'
+  params: {
+    name: 'sb-${resourceName}'
+    location: location
+    sku: 'Basic'
   }
+}
+
+//----------- App Service Plan Deployment ------------
+module servicePlan 'serviceplan.bicep' = {
+  name: 'plandeploy-${buildNumber}'
+  params: {
+    name: 'asp-${resourceName}'
+    location: location
+    os: 'Linux'
+  }
+}
+
+//----------- Function App: API ---------------------
+module functionAppApi 'function-api.bicep' = {
+  name: 'functiondeployapi-${buildNumber}'
+  params: {
+    name: 'func-${resourceName}-api'
+    location: location
+    planId: servicePlan.outputs.planId
+    functionAppRuntime: 'dotnet'
+    storageAccountConnectionString: storageAccount.outputs.connectionString
+    serviceBusConnectionString: serviceBus.outputs.sendConnectionString
+  }
+  dependsOn: [
+    storageAccount
+    serviceBus
+  ]
 }

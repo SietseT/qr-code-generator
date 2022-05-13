@@ -16,13 +16,13 @@ param planId string
 ])
 param functionAppRuntime string
 
+@description('Connection strings')
+@secure()
+param connectionStrings object
+
 @description('Storage Account connection string')
 @secure()
 param storageAccountConnectionString string
-
-@description('Service Bus connection string')
-@secure()
-param serviceBusConnectionString string
 
 var function_extension_version = '~4'
 
@@ -49,16 +49,7 @@ resource functionAppSettings 'Microsoft.Web/sites/config@2021-03-01' = {
 
 resource functionAppConnectionStrings 'Microsoft.Web/sites/config@2021-03-01' = {
   name: '${name}/connectionstrings'
-  properties: {
-    StorageAccountConnectionString: {
-      value: storageAccountConnectionString
-      type: 'Custom'
-    }
-    ServiceBusConnectionString: {
-      value: serviceBusConnectionString
-      type: 'Custom'
-    }
-  }
+  properties: connectionStrings
   dependsOn: [
     functionApp
   ]

@@ -12,19 +12,6 @@ namespace Sito.QR.Hub;
 
 public class Startup : FunctionsStartup
 {
-
-    public override void ConfigureAppConfiguration(IFunctionsConfigurationBuilder builder)
-    {
-        var context = builder.GetContext();
-
-        builder.ConfigurationBuilder
-            .AddJsonFile(Path.Combine(context.ApplicationRootPath, "settings.json"), optional: true, reloadOnChange: false)
-            .AddJsonFile(Path.Combine(context.ApplicationRootPath, "local.settings.json"), optional: true, reloadOnChange: false)
-            .AddEnvironmentVariables();
-        
-        base.ConfigureAppConfiguration(builder);
-    }
-
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var services = builder.Services;

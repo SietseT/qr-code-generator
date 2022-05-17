@@ -15,13 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.QR.Api.Shared", "Sito.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.QR.Hub", "Sito.QR.Hub\Sito.QR.Hub.csproj", "{27FA8B4C-6157-4875-A556-AB097FACB5BE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.Qr.Web", "Sito.Qr.Web\Sito.Qr.Web.csproj", "{E60AC7DB-C627-4084-B385-506EE9ED554A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.Qr.Web.Server", "Sito.Qr.Web\Server\Sito.Qr.Web.Server.csproj", "{48929ADC-C81D-4AF1-850C-F5A54A2990F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Server", "BlazorApp1\Server\BlazorApp1.Server.csproj", "{48929ADC-C81D-4AF1-850C-F5A54A2990F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.Qr.Web.Client", "Sito.Qr.Web\Client\Sito.Qr.Web.Client.csproj", "{5F5EC564-BF92-4BD2-A645-DDAA6195F384}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Client", "BlazorApp1\Client\BlazorApp1.Client.csproj", "{5F5EC564-BF92-4BD2-A645-DDAA6195F384}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Shared", "BlazorApp1\Shared\BlazorApp1.Shared.csproj", "{FDA557FE-2737-42DA-8F12-BA48F13570E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.Qr.Web.Shared", "Sito.Qr.Web\Shared\Sito.Qr.Web.Shared.csproj", "{FDA557FE-2737-42DA-8F12-BA48F13570E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{DB155084-FC9C-4631-B67D-93D5FF087F41}"
 EndProject
@@ -51,10 +49,6 @@ Global
 		{27FA8B4C-6157-4875-A556-AB097FACB5BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27FA8B4C-6157-4875-A556-AB097FACB5BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27FA8B4C-6157-4875-A556-AB097FACB5BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E60AC7DB-C627-4084-B385-506EE9ED554A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E60AC7DB-C627-4084-B385-506EE9ED554A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E60AC7DB-C627-4084-B385-506EE9ED554A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E60AC7DB-C627-4084-B385-506EE9ED554A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{48929ADC-C81D-4AF1-850C-F5A54A2990F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{48929ADC-C81D-4AF1-850C-F5A54A2990F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{48929ADC-C81D-4AF1-850C-F5A54A2990F8}.Release|Any CPU.ActiveCfg = Release|Any CPU

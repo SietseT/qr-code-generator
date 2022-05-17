@@ -1,18 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Api", "Sito.QR.Api\Sito.QR.Api.csproj", "{B623AF77-027A-43C1-89C0-3D5E7A9A3414}"
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32505.173
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.QR.Api", "Sito.QR.Api\Sito.QR.Api.csproj", "{B623AF77-027A-43C1-89C0-3D5E7A9A3414}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{22F17D37-7658-4922-8AD8-CE7E5DA03C83}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Shared", "Sito.QR.Shared\Sito.QR.Shared.csproj", "{8D202FF8-4DDC-4D3A-BEEF-E7365056615B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.QR.Shared", "Sito.QR.Shared\Sito.QR.Shared.csproj", "{8D202FF8-4DDC-4D3A-BEEF-E7365056615B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Api.Generators", "Sito.QR.Api.Generators\Sito.QR.Api.Generators.csproj", "{60DB3DAA-FF86-46FA-A1C5-B8E61E0FDD5A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.QR.Api.Generators", "Sito.QR.Api.Generators\Sito.QR.Api.Generators.csproj", "{60DB3DAA-FF86-46FA-A1C5-B8E61E0FDD5A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Api.Shared", "Sito.QR.Api.Shared\Sito.QR.Api.Shared.csproj", "{D5AE98BF-3D1E-4D72-A73C-377F7A5C1AD6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.QR.Api.Shared", "Sito.QR.Api.Shared\Sito.QR.Api.Shared.csproj", "{D5AE98BF-3D1E-4D72-A73C-377F7A5C1AD6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.QR.Hub", "Sito.QR.Hub\Sito.QR.Hub.csproj", "{27FA8B4C-6157-4875-A556-AB097FACB5BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.QR.Hub", "Sito.QR.Hub\Sito.QR.Hub.csproj", "{27FA8B4C-6157-4875-A556-AB097FACB5BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sito.Qr.Web", "Sito.Qr.Web\Sito.Qr.Web.csproj", "{E60AC7DB-C627-4084-B385-506EE9ED554A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sito.Qr.Web", "Sito.Qr.Web\Sito.Qr.Web.csproj", "{E60AC7DB-C627-4084-B385-506EE9ED554A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Server", "BlazorApp1\Server\BlazorApp1.Server.csproj", "{48929ADC-C81D-4AF1-850C-F5A54A2990F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Client", "BlazorApp1\Client\BlazorApp1.Client.csproj", "{5F5EC564-BF92-4BD2-A645-DDAA6195F384}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorApp1.Shared", "BlazorApp1\Shared\BlazorApp1.Shared.csproj", "{FDA557FE-2737-42DA-8F12-BA48F13570E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{DB155084-FC9C-4631-B67D-93D5FF087F41}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,11 +55,32 @@ Global
 		{E60AC7DB-C627-4084-B385-506EE9ED554A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E60AC7DB-C627-4084-B385-506EE9ED554A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E60AC7DB-C627-4084-B385-506EE9ED554A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{48929ADC-C81D-4AF1-850C-F5A54A2990F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48929ADC-C81D-4AF1-850C-F5A54A2990F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48929ADC-C81D-4AF1-850C-F5A54A2990F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48929ADC-C81D-4AF1-850C-F5A54A2990F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F5EC564-BF92-4BD2-A645-DDAA6195F384}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F5EC564-BF92-4BD2-A645-DDAA6195F384}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F5EC564-BF92-4BD2-A645-DDAA6195F384}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F5EC564-BF92-4BD2-A645-DDAA6195F384}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA557FE-2737-42DA-8F12-BA48F13570E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA557FE-2737-42DA-8F12-BA48F13570E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA557FE-2737-42DA-8F12-BA48F13570E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA557FE-2737-42DA-8F12-BA48F13570E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B623AF77-027A-43C1-89C0-3D5E7A9A3414} = {22F17D37-7658-4922-8AD8-CE7E5DA03C83}
 		{60DB3DAA-FF86-46FA-A1C5-B8E61E0FDD5A} = {22F17D37-7658-4922-8AD8-CE7E5DA03C83}
 		{D5AE98BF-3D1E-4D72-A73C-377F7A5C1AD6} = {22F17D37-7658-4922-8AD8-CE7E5DA03C83}
 		{27FA8B4C-6157-4875-A556-AB097FACB5BE} = {22F17D37-7658-4922-8AD8-CE7E5DA03C83}
+		{5F5EC564-BF92-4BD2-A645-DDAA6195F384} = {DB155084-FC9C-4631-B67D-93D5FF087F41}
+		{48929ADC-C81D-4AF1-850C-F5A54A2990F8} = {DB155084-FC9C-4631-B67D-93D5FF087F41}
+		{FDA557FE-2737-42DA-8F12-BA48F13570E7} = {DB155084-FC9C-4631-B67D-93D5FF087F41}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9BAE1985-C9E7-4BE6-8DC3-CED50BA45BD4}
 	EndGlobalSection
 EndGlobal

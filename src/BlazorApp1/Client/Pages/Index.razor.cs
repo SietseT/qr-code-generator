@@ -1,10 +1,11 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.SignalR.Client;
 using Sito.QR.Api.Shared.Constants;
 using Sito.QR.Api.Shared.Dto;
 
-namespace Sito.Qr.Web.Pages;
+
+namespace BlazorApp1.Client.Pages;
 
 public partial class Index
 {
@@ -14,12 +15,12 @@ public partial class Index
 
     private string _ssid = string.Empty;
     private string _password = string.Empty;
-    
+
     protected override async Task OnInitializedAsync()
     {
         await StartHubConnection();
     }
-    
+
     private async Task StartHubConnection()
     {
         _hubConnection = new HubConnectionBuilder()
@@ -35,20 +36,20 @@ public partial class Index
                 cfg.PayloadSerializerOptions = jsonOptions;
             })
             .Build();
-        
+
         _hubConnection.On<GeneratedQr>(QrHubMethods.QrCodeGenerated, data =>
         {
             _generatedQrCodeUrl = data.QrCodeUrl;
             _status = "QR code generated!";
             StateHasChanged(); //Force state change because SignalR + Blazor doesn't seem to do it for us
         });
-            
+
         _hubConnection.On(QrHubMethods.QrRequestSent, () =>
         {
             _status = "QR code is being generated...";
             StateHasChanged(); //Force state change because SignalR + Blazor doesn't seem to do it for us
         });
-        
+
         await _hubConnection.StartAsync();
         if (_hubConnection.State == HubConnectionState.Connected)
             _status = "Connected!";
@@ -60,10 +61,11 @@ public partial class Index
     {
         if (_hubConnection == null)
             return;
-        
-        await _hubConnection.SendAsync(QrHubMethods.SendQrRequest, 
+
+        await _hubConnection.SendAsync(QrHubMethods.SendQrRequest,
             new WifiQrRequest(_ssid, _password));
-        
+
         _status = "Request sent...";
     }
 }
+

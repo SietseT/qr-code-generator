@@ -1,8 +1,11 @@
 @description('SignalR name')
 param name string
 
-@description('FSignalR location')
+@description('SignalR location')
 param location string
+
+@description('Upstream hub URL')
+param upstream string
 
 resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
   sku: {
@@ -47,7 +50,19 @@ resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
         '*'
       ]
     }
-    upstream: { }
+    upstream: {
+      templates: [
+        {
+          hubPattern: '*'
+          eventPattern: '*'
+          categoryPattern: '*'
+          urlTemplate: upstream
+          auth: {
+            type: 'None'
+          }
+        }
+      ]
+    }
     networkACLs: {
       defaultAction: 'Deny'
       publicNetwork: {
@@ -71,3 +86,5 @@ resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
 }
 
 output connectionString string = listKeys(signalr.id, signalr.apiVersion).primaryConnectionString
+
+

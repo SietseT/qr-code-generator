@@ -23,7 +23,9 @@ public partial class Index
     private async Task StartHubConnection()
     {
         _hubConnection = new HubConnectionBuilder()
-            .WithUrl("http://localhost:7073")
+            // .WithUrl("http://localhost:7073")
+            .WithUrl("https://func-dev-qrgenerator-hub.azurewebsites.net")
+            // .WithUrl("https://7c2f-83-82-118-241.eu.ngrok.io")
             .AddJsonProtocol(cfg =>
             {
                 var jsonOptions = new System.Text.Json.JsonSerializerOptions

@@ -20,11 +20,23 @@ param functionAppRuntime string
 @secure()
 param connectionStrings object
 
+@description('App settings')
+@secure()
+param appSettings object = {}
+
 @description('Storage Account connection string')
 @secure()
 param storageAccountConnectionString string
 
 var function_extension_version = '~4'
+
+var defaultSettings = {
+  AzureWebJobsStorage: storageAccountConnectionString
+  FUNCTIONS_EXTENSION_VERSION: function_extension_version
+  FUNCTIONS_WORKER_RUNTIME: functionAppRuntime
+}
+
+var allAppSettings = union(defaultSettings, appSettings)
 
 resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
   name: name
@@ -35,13 +47,21 @@ resource functionApp 'Microsoft.Web/sites@2021-03-01' = {
   }
 }
 
+// resource defaultFunctionAppSettings 'Microsoft.Web/sites/config@2021-03-01' = {
+//   name: '${name}/appsettings'
+//   properties: {
+//     AzureWebJobsStorage: storageAccountConnectionString
+//     FUNCTIONS_EXTENSION_VERSION: function_extension_version
+//     FUNCTIONS_WORKER_RUNTIME: functionAppRuntime
+//   }
+//   dependsOn: [
+//     functionApp
+//   ]
+// }
+
 resource functionAppSettings 'Microsoft.Web/sites/config@2021-03-01' = {
   name: '${name}/appsettings'
-  properties: {
-    AzureWebJobsStorage: storageAccountConnectionString
-    FUNCTIONS_EXTENSION_VERSION: function_extension_version
-    FUNCTIONS_WORKER_RUNTIME: functionAppRuntime
-  }
+  properties: allAppSettings
   dependsOn: [
     functionApp
   ]

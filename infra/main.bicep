@@ -10,7 +10,12 @@ param environment string = 'dev'
 @description('Resource name with environment')
 param resourceName string = '${environment}-${commonName}'
 
+@description('Function URL of QR API entrypoint')
+param functionApiUrl string
 
+
+@description('Function URL of SignalR hub')
+param functionHubUrl string
 
 
 var buildNumber = uniqueString(resourceGroup().id)
@@ -21,6 +26,7 @@ module signalR 'signalr.bicep' = {
   params: {
     name: 'sr-${resourceName}'
     location: location
+    upstream: functionHubUrl
   }
 }
 
@@ -44,12 +50,34 @@ module serviceBus 'servicebus.bicep' = {
 }
 
 //----------- App Service Plan Deployment ------------
-module servicePlan 'serviceplan.bicep' = {
-  name: 'plandeploy-${buildNumber}'
+module functionAppServicePlan 'serviceplan.bicep' = {
+  name: 'funcplandeploy-${buildNumber}'
   params: {
     name: 'asp-${resourceName}'
     location: location
+    kind: 'functionapp'
     os: 'Linux'
+    sku: {
+      name: 'Y1'
+    }
+  }
+}
+
+//----------- App Service Plan Deployment ------------
+module webServicePlan 'serviceplan.bicep' = {
+  name: 'webplandeploy-${buildNumber}'
+  params: {
+    name: 'asp-${resourceName}-free'
+    location: location
+    kind: 'linux'
+    os: 'Linux'
+    sku: {
+      name: 'F1'
+      tier: 'Free'
+      size: 'F1'
+      family: 'F'
+      capacity: 1
+    }
   }
 }
 
@@ -59,7 +87,7 @@ module functionAppApi 'function-api.bicep' = {
   params: {
     name: 'func-${resourceName}-api'
     location: location
-    planId: servicePlan.outputs.planId
+    planId: functionAppServicePlan.outputs.planId
     functionAppRuntime: 'dotnet'
     storageAccountConnectionString: storageAccount.outputs.connectionString
     connectionStrings: {
@@ -74,6 +102,7 @@ module functionAppApi 'function-api.bicep' = {
     }
   }
   dependsOn: [
+    functionAppServicePlan
     storageAccount
     serviceBus
   ]
@@ -85,7 +114,7 @@ module functionAppGenerators 'function-api.bicep' = {
   params: {
     name: 'func-${resourceName}-generators'
     location: location
-    planId: servicePlan.outputs.planId
+    planId: functionAppServicePlan.outputs.planId
     functionAppRuntime: 'dotnet'
     storageAccountConnectionString: storageAccount.outputs.connectionString
     connectionStrings: {
@@ -100,18 +129,19 @@ module functionAppGenerators 'function-api.bicep' = {
     }
   }
   dependsOn: [
+    functionAppServicePlan
     storageAccount
     serviceBus
   ]
 }
 
-//----------- Function App: Generators ---------------------
+//----------- Function App: Hub ---------------------
 module functionAppHub 'function-api.bicep' = {
   name: 'functiondeployhub-${buildNumber}'
   params: {
     name: 'func-${resourceName}-hub'
     location: location
-    planId: servicePlan.outputs.planId
+    planId: functionAppServicePlan.outputs.planId
     functionAppRuntime: 'dotnet'
     storageAccountConnectionString: storageAccount.outputs.connectionString
     connectionStrings: {
@@ -124,9 +154,27 @@ module functionAppHub 'function-api.bicep' = {
         type: 'Custom'
       }
     }
+    appSettings: {
+      Values__QrApiUrl: functionApiUrl
+    }
   }
   dependsOn: [
+    functionAppServicePlan
     storageAccount
     signalR
+  ]
+}
+
+//----------- Web app ---------------------
+module webApp 'webapp.bicep' = {
+  name: 'webdeploy-${buildNumber}'
+  params: {
+    name: 'app-${resourceName}'
+    location: location
+    planId: webServicePlan.outputs.planId
+    connectionStrings: {}
+  }
+  dependsOn: [
+    webServicePlan
   ]
 }

@@ -69,8 +69,8 @@ module webServicePlan 'serviceplan.bicep' = {
   params: {
     name: 'asp-${resourceName}-free'
     location: location
-    kind: 'linux'
-    os: 'Linux'
+    kind: 'windows'
+    os: 'Windows'
     sku: {
       name: 'F1'
       tier: 'Free'
@@ -172,7 +172,6 @@ module webApp 'webapp.bicep' = {
     name: 'app-${resourceName}'
     location: location
     planId: webServicePlan.outputs.planId
-    connectionStrings: {}
   }
   dependsOn: [
     webServicePlan

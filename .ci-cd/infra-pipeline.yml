@@ -1,18 +1,22 @@
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  - template: vars/global.yml
+
 stages:
 - stage: Dev
+  variables: vars/dev.yml
   jobs:
   - job: Bicep
     steps:
     - task: AzureCLI@2
       displayName: 'Deploy resource group with Bicep'
       inputs:
-        azureSubscription: $(azureServiceConnection)
+        azureSubscription: ${{ variables.azureServiceConnection  }}
         scriptType: bash
         scriptLocation: inlineScript
         inlineScript: |
          az --version
-         az group create --name $(resourceGroupName) --location $(location)
-         az deployment group create --resource-group $(resourceGroupName) --template-file ../infra/main.bicep
+         az group create --name ${{ variables.resourceGroupName  }} --location ${{ variables.location  }}
+         az deployment group create --resource-group ${{ variables.resourceGroupName  }} --template-file ../infra/main.bicep --parameters userManagedIdentity=$(userManagedIdentity)

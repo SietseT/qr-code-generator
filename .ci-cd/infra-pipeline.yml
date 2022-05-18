@@ -6,7 +6,8 @@ variables:
 
 stages:
 - stage: Dev
-  variables: vars/dev.yml
+  variables:
+    - template: vars/dev.yml
   jobs:
   - job: Bicep
     steps:

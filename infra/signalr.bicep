@@ -71,5 +71,6 @@ resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
 }
 
 output connectionString string = listKeys(signalr.id, signalr.apiVersion).primaryConnectionString
+output resourceName string = signalr.name
 
 

@@ -147,8 +147,8 @@ module signalRUpstream 'signalr-upstream.bicep' = {
   name: 'signalrupstream-${buildNumber}'
   params: {
     location: location
-    hubFunctionName: functionAppHub.name
-    signalRName: signalR.name
+    hubFunctionName: functionAppHub.outputs.functionAppName
+    signalRName: signalR.outputs.resourceName
     resourceGroup: resourceGroup().name
     userAssignedIdentity: userManagedIdentity
   }

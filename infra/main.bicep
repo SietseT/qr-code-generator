@@ -142,18 +142,19 @@ module functionAppHub 'function-api.bicep' = {
   ]
 }
 
+// --------------- SignalR upstream update -----------
 module signalRUpstream 'signalr-upstream.bicep' = {
   name: 'signalrupstream-${buildNumber}'
   params: {
     location: location
-    hubFunctionName: functionAppHub.name
-    signalRName: signalR.name
+    hubFunctionName: functionAppHub.outputs.functionAppName
+    signalRName: signalR.outputs.resourceName
     resourceGroup: resourceGroup().name
     userAssignedIdentity: userManagedIdentity
   }
 }
 
------------ App Service Plan Deployment ------------
+// ----------- App Service Plan Deployment ------------
 module webServicePlan 'serviceplan.bicep' = {
   name: 'webplandeploy-${buildNumber}'
   params: {
@@ -171,7 +172,7 @@ module webServicePlan 'serviceplan.bicep' = {
   }
 }
 
------------ Web app ---------------------
+// ----------- Web app ---------------------
 module webApp 'webapp.bicep' = {
   name: 'webdeploy-${buildNumber}'
   params: {

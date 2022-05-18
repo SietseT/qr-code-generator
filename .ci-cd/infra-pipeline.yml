@@ -20,4 +20,4 @@ stages:
         inlineScript: |
          az --version
          az group create --name ${{ variables.resourceGroupName  }} --location ${{ variables.location  }}
-         az deployment group create --resource-group ${{ variables.resourceGroupName  }} --template-file ../infra/main.bicep --parameters userManagedIdentity=$(userManagedIdentity)
+         az deployment group create --resource-group ${{ variables.resourceGroupName  }} --template-file /infra/main.bicep --parameters userManagedIdentity=$(userManagedIdentity)

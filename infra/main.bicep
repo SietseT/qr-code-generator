@@ -10,12 +10,8 @@ param environment string = 'dev'
 @description('Resource name with environment')
 param resourceName string = '${environment}-${commonName}'
 
-@description('Function URL of QR API entrypoint')
-param functionApiUrl string
-
-
-@description('Function URL of SignalR hub')
-param functionHubUrl string
+@description('User-managed identity used for authentication')
+param userManagedIdentity string
 
 
 var buildNumber = uniqueString(resourceGroup().id)
@@ -26,7 +22,6 @@ module signalR 'signalr.bicep' = {
   params: {
     name: 'sr-${resourceName}'
     location: location
-    upstream: functionHubUrl
   }
 }
 
@@ -59,24 +54,6 @@ module functionAppServicePlan 'serviceplan.bicep' = {
     os: 'Linux'
     sku: {
       name: 'Y1'
-    }
-  }
-}
-
-//----------- App Service Plan Deployment ------------
-module webServicePlan 'serviceplan.bicep' = {
-  name: 'webplandeploy-${buildNumber}'
-  params: {
-    name: 'asp-${resourceName}-free'
-    location: location
-    kind: 'windows'
-    os: 'Windows'
-    sku: {
-      name: 'F1'
-      tier: 'Free'
-      size: 'F1'
-      family: 'F'
-      capacity: 1
     }
   }
 }
@@ -155,7 +132,7 @@ module functionAppHub 'function-api.bicep' = {
       }
     }
     appSettings: {
-      Values__QrApiUrl: functionApiUrl
+      Values__QrApiUrl: 'https://${functionAppApi.outputs.functionAppName}.azurewebsites.net/api/qr?code=${functionAppApi.outputs.defaultFunctionAppKey}'
     }
   }
   dependsOn: [
@@ -165,7 +142,36 @@ module functionAppHub 'function-api.bicep' = {
   ]
 }
 
-//----------- Web app ---------------------
+module signalRUpstream 'signalr-upstream.bicep' = {
+  name: 'signalrupstream-${buildNumber}'
+  params: {
+    location: location
+    hubFunctionName: functionAppHub.name
+    signalRName: signalR.name
+    resourceGroup: resourceGroup().name
+    userAssignedIdentity: userManagedIdentity
+  }
+}
+
+----------- App Service Plan Deployment ------------
+module webServicePlan 'serviceplan.bicep' = {
+  name: 'webplandeploy-${buildNumber}'
+  params: {
+    name: 'asp-${resourceName}-free'
+    location: location
+    kind: 'windows'
+    os: 'Windows'
+    sku: {
+      name: 'F1'
+      tier: 'Free'
+      size: 'F1'
+      family: 'F'
+      capacity: 1
+    }
+  }
+}
+
+----------- Web app ---------------------
 module webApp 'webapp.bicep' = {
   name: 'webdeploy-${buildNumber}'
   params: {

@@ -4,9 +4,6 @@ param name string
 @description('SignalR location')
 param location string
 
-@description('Upstream hub URL')
-param upstream string
-
 resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
   sku: {
     name: 'Free_F1'
@@ -50,19 +47,7 @@ resource signalr 'Microsoft.SignalRService/signalR@2022-02-01' = {
         '*'
       ]
     }
-    upstream: {
-      templates: [
-        {
-          hubPattern: '*'
-          eventPattern: '*'
-          categoryPattern: '*'
-          urlTemplate: upstream
-          auth: {
-            type: 'None'
-          }
-        }
-      ]
-    }
+    upstream: {}    
     networkACLs: {
       defaultAction: 'Deny'
       publicNetwork: {

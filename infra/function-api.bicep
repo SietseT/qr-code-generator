@@ -77,3 +77,5 @@ resource functionAppConnectionStrings 'Microsoft.Web/sites/config@2021-03-01' = 
 
 
 output functionAppName string = functionApp.name
+var key = listkeys('${functionApp.id}/host/default', '2016-08-01').functionKeys.default
+output defaultFunctionAppKey string = key

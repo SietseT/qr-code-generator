@@ -15,7 +15,7 @@ stages:
       displayName: 'Deploy resource group with Bicep'
       inputs:
         azureSubscription: ${{ variables.azureServiceConnection  }}
-        scriptType: bash
+        scriptType: ps
         scriptLocation: inlineScript
         inlineScript: |
          az --version

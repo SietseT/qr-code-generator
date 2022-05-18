@@ -1,4 +1,6 @@
-@page "/"
+﻿@page "/"
+@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> AppSettings
 
 <h3>QR Generator</h3>
 <p>Status: @_status</p>

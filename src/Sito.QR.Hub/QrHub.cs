@@ -60,7 +60,8 @@ public class QrHub : ServerlessHub
         }
         catch (Exception e)
         {
-            logger.LogError(e, "Error sending QR request");
+            logger.LogError(e, "Error sending QR request: {Message}", e.Message);
+            throw;
         }
     }
     

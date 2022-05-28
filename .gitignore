@@ -354,3 +354,9 @@ MigrationBackup/
 
 # Azure
 **/local.settings.json
+
+# Terraform
+**/.terraform/**
+**/terraform/**/local.env
+**/terraform/**/tfplan
+**/.terraform.lock.hcl

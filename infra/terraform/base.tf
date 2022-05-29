@@ -1,4 +1,4 @@
 resource "azurerm_resource_group" "resource-group" {
-  name     = "reg-dev-qrgenerator"
+  name     = "rg-qrgenerator-${var.environment_name}"
   location = "westeurope"
 }

@@ -72,13 +72,6 @@ resource "azurerm_signalr_service" "signalr" {
   connectivity_logs_enabled = true
   messaging_logs_enabled    = true
   service_mode              = "Serverless"
-
-  # upstream_endpoint {
-  #   category_pattern = ["*"]
-  #   event_pattern    = ["*"]
-  #   hub_pattern      = ["*"]
-  #   url_template     = "https://${local.hub_function_name}.azurewebsites.net/runtime/webhooks/signalr?code=${data.azurerm_function_app_host_keys.hub.signalr_extension_key}"
-  # }
 }
 
 /*
@@ -105,6 +98,7 @@ resource "azurerm_service_plan" "apps" {
 */
 locals {
   hub_function_name = "func-${local.application}-hub-${var.environment_name}"
+  hub_upstream      = "https://${local.hub_function_name}.azurewebsites.net/runtime/webhooks/signalr?code=${data.azurerm_function_app_host_keys.hub.signalr_extension_key}"
 }
 
 resource "azurerm_linux_function_app" "hub" {
@@ -143,6 +137,42 @@ data "azurerm_function_app_host_keys" "hub" {
   resource_group_name = azurerm_resource_group.resource_group.name
 }
 
-# resource "null_resource" "signalr_upstream" {
+resource "null_resource" "signalr_upstream" {  
+  triggers = {
+    signalr_id = azurerm_signalr_service.signalr.id
+    hub_url    = local.hub_upstream
+  }
 
-# }
+  provisioner "local-exec" {
+    # command     = ".'${path.module}\\scripts\\CreateOrUpdateUpstream.ps1' -resourceName ${azurerm_signalr_service.signalr.name} -resourceGroup ${azurerm_resource_group.resource_group.name} -hubUpstream ${local.hub_upstream}"
+    interpreter = ["PowerShell", "-Command"]
+    command     = <<EOT
+      $resourceName = "${azurerm_signalr_service.signalr.name}"
+      $resourceGroup = "${azurerm_resource_group.resource_group.name}"
+
+      $signalr = (az signalr show --name $resourceName --resource-group $resourceGroup) | ConvertFrom-Json
+      if(!$signalR) {
+          throw "SignalR service with name '$resourceName' not found."
+      }
+
+
+      $upstreams = (az signalr upstream list --name $resourceName --resource-group $resourceGroup --query "templates") | ConvertFrom-Json
+      if($upstreams.length -gt 0) {
+          Write-Host "Clearing upstreams..."
+          az signalr upstream clear --name $resourceName --resource-group $resourceGroup
+      }
+
+      Write-Host "Adding upstream..."
+      az signalr upstream update `
+                      --name $resourceName `
+                      --resource-group $resourceGroup `
+                      --template url-template=${local.hub_upstream}
+    EOT
+  }
+
+  depends_on = [
+    data.azurerm_function_app_host_keys.hub,
+    azurerm_linux_function_app.hub,
+    azurerm_signalr_service.signalr
+  ]
+}

@@ -153,7 +153,6 @@ resource "null_resource" "signalr_upstream" {
   }
 
   provisioner "local-exec" {
-    # command     = ".'${path.module}\\scripts\\CreateOrUpdateUpstream.ps1' -resourceName ${azurerm_signalr_service.signalr.name} -resourceGroup ${azurerm_resource_group.resource_group.name} -hubUpstream ${local.hub_upstream}"
     interpreter = ["PowerShell", "-Command"]
     command     = <<EOT
       $resourceName = "${azurerm_signalr_service.signalr.name}"

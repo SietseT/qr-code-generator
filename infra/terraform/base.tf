@@ -72,6 +72,10 @@ resource "azurerm_signalr_service" "signalr" {
   connectivity_logs_enabled = true
   messaging_logs_enabled    = true
   service_mode              = "Serverless"
+
+  lifecycle {
+    ignore_changes = [ upstream_endpoint ]
+  }
 }
 
 /*
@@ -102,6 +106,7 @@ locals {
 }
 
 resource "azurerm_linux_function_app" "hub" {
+  
   name                        = local.hub_function_name
   resource_group_name         = azurerm_resource_group.resource_group.name
   location                    = azurerm_resource_group.resource_group.location
@@ -129,6 +134,10 @@ resource "azurerm_linux_function_app" "hub" {
     application_stack {
       dotnet_version  = "6.0"
     }
+  }
+
+  lifecycle {
+    ignore_changes = [ app_settings["WEBSITE_RUN_FROM_PACKAGE"] ]
   }
 }
 

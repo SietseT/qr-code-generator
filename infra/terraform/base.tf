@@ -105,45 +105,32 @@ locals {
   hub_upstream      = "https://${local.hub_function_name}.azurewebsites.net/runtime/webhooks/signalr?code=${data.azurerm_function_app_host_keys.hub.signalr_extension_key}"
 }
 
-resource "azurerm_linux_function_app" "hub" {
-  
-  name                        = local.hub_function_name
-  resource_group_name         = azurerm_resource_group.resource_group.name
-  location                    = azurerm_resource_group.resource_group.location
+module "azure_function_hub" {
+  source = "./modules/azure_function"
 
-  storage_account_name        = azurerm_storage_account.storage_account.name
-  storage_account_access_key  = azurerm_storage_account.storage_account.primary_access_key
-  functions_extension_version = "~4"
-  service_plan_id             = azurerm_service_plan.consumption.id
+  function_app_settings = null
 
-  https_only                  = true
-  
-  app_settings = {
-    WEBSITE_RUN_FROM_PACKAGE  = ""
-  }
- 
-  connection_string {
+  function_connection_strings = [{
     name    = "AzureSignalRConnectionString"
     type    = "Custom"
     value   = azurerm_signalr_service.signalr.primary_connection_string
-  }  
+  }]
 
-  site_config {
-    ftps_state                = "Disabled"
-
-    application_stack {
-      dotnet_version  = "6.0"
-    }
-  }
-
-  lifecycle {
-    ignore_changes = [ app_settings["WEBSITE_RUN_FROM_PACKAGE"] ]
-  }
+  function_location                 = azurerm_resource_group.resource_group.location
+  function_name                     = local.hub_function_name
+  resource_group_name               = azurerm_resource_group.resource_group.name
+  service_plan_id                   = azurerm_service_plan.consumption.id
+  storage_account_name              = azurerm_storage_account.storage_account.name
+  storage_account_connection_string = azurerm_storage_account.storage_account.primary_access_key
 }
 
 data "azurerm_function_app_host_keys" "hub" {
   name                = local.hub_function_name
   resource_group_name = azurerm_resource_group.resource_group.name
+
+  depends_on = [
+    module.azure_function_hub
+  ]
 }
 
 resource "null_resource" "signalr_upstream" {  
@@ -180,7 +167,7 @@ resource "null_resource" "signalr_upstream" {
 
   depends_on = [
     data.azurerm_function_app_host_keys.hub,
-    azurerm_linux_function_app.hub,
+    module.azure_function_hub,
     azurerm_signalr_service.signalr
   ]
 }
